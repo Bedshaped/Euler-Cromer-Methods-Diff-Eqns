@@ -13,10 +13,13 @@ import matplotlib.pyplot as plt
 def N(t, a, b):
     return a*np.exp(-t/b)
 
+def derivative(a, b):
+    return (-a/b)
+
 
 # Parameters
 
-d_t = 0.1
+d_t = 0.001
 t_max = 10
 tau = 2.0
 n = int(t_max/d_t)
@@ -26,20 +29,19 @@ n = int(t_max/d_t)
 N_array = np.zeros((2, n))
 N_array[:,0] = 10
 
-# Loop
+# Loop our Euler method
 x = np.linspace(0, t_max, n)
 for t in range(n-1):
-    
-    value = N(x[t], N_array[0, 0], tau) - (N(x[t], N_array[0, 0], tau)/tau)*d_t
-    N_array[0, t + 1] = value
+    N_array[0, t + 1] = N_array[0, t] + d_t*(derivative(N_array[0, t], tau))
 
-for t in range(n-1):
-    value = N(x[t+1], N_array[1, 0], tau)
-    N_array[1, t + 1] = value
+    
+# Calculate direct values
+
+N_array[1] = N(x, N_array[1, 0], tau)
 
 # Deviation of methods
     
-dev = np.subtract(N_array[1,:], N_array[0,:])
+dev = (N_array[1,:] - N_array[0,:])/N_array[1,:]
 
 # Initialize the plot
     
@@ -52,6 +54,8 @@ plt.legend()
 
 plt.figure(2, figsize=(9, 6))
 plt.plot(x[1:], dev[1:], label=r"$Deviation$")
+plt.yscale("log")
+plt.xscale("log")
 plt.xlabel("Time")
 plt.ylabel(r"$\Delta N$")
 plt.legend()
