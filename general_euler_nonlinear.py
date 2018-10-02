@@ -10,35 +10,41 @@ import matplotlib.pyplot as plt
 
 # Defining function
 
-def f(x, t):
-    return t - x**2
-
-def differential(x, t, h):
-    return x + h*f(x, t)
+def dxdt(a, b):
+    return b - a**2
 
 # Parameters
 
 h = 0.05
-t_max = 9
+t_max = 36
 n = int(t_max/h)
 
 # Initial conditions
 
-x = np.zeros(n)
-x[0] = 3
+x = np.zeros((5,n))
+#x[0] = 3
 t = np.linspace(0, t_max, n)
 
-# Loop
+# Loop and initialize our initial values
 
-for i in range(n - 1):
-    value = differential(x[i + 1], t[i + 1], h)
-    x[i + 1] = value
+k = 0
+for j in [3, 1, -0.72, -0.73, -5]:
+    x[k, 0] = j
+    w = k
+    k += 1
+    for i in range(n-1):
+        x[w, i + 1] = x[w, i] + h*dxdt(x[w, i], t[i])
+        
 
-
-# Deviation of methods
-    
 
 # Initialize the plot
 
 plt.figure(1, figsize=(9, 6))
-plt.plot(t, x)
+for i in range(k):  
+    plt.plot(t, x[i,], label=r"$x_0 = %5.2f$" % x[i,0])
+plt.xlabel("Time")
+plt.ylabel("X")
+plt.legend()
+axes = plt.gca()
+axes.set_xlim([0,t_max])
+axes.set_ylim([-30,40])

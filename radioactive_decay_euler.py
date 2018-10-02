@@ -46,7 +46,7 @@ dev = (N_array[1,:] - N_array[0,:])/N_array[1,:]
 # Initialize the plot
     
 plt.figure(1, figsize=(9, 6))
-plt.plot(N_array[0,:], x, label=r"$Euler (\Delta t = \frac{1}{%5.2f}s)$" % d_t**-1)
+plt.plot(N_array[0,:], x, label=r"$Euler (\Delta t = \frac{1}{%d}s)$" % d_t**-1)
 plt.plot(N_array[1,:], x, label=r"$Direct$")
 plt.xlabel("Time")
 plt.ylabel("N")
