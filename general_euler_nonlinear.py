@@ -16,19 +16,19 @@ def dxdt(a, b):
 # Parameters
 
 h = 0.05
-t_max = 36
+t_max = 9
 n = int(t_max/h)
 
 # Initial conditions
 
-x = np.zeros((5,n))
-#x[0] = 3
+initial_vals = [3, 1, 0, -0.72, -0.73, -5]
+x = np.zeros((len(initial_vals),n))
 t = np.linspace(0, t_max, n)
 
 # Loop and initialize our initial values
 
 k = 0
-for j in [3, 1, -0.72, -0.73, -5]:
+for j in initial_vals:
     x[k, 0] = j
     w = k
     k += 1
@@ -47,4 +47,4 @@ plt.ylabel("X")
 plt.legend()
 axes = plt.gca()
 axes.set_xlim([0,t_max])
-axes.set_ylim([-30,40])
+axes.set_ylim([-5,5])
